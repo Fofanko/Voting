@@ -33,7 +33,7 @@ class RegistrationTestCase(BaseTestCase):
         response = self.client.post('/registration', data={"username": "test_username", "password": "test_password"})
         response_data = json.loads(response.data.decode('utf8'))
         right_data = {"success": True,
-                      "data": {"auth_credentials": "dGVzdF91c2VybmFtZToxNmVjMWViYjAxZmUwMmRlZDliN2Q1NDQ3ZDNkZmM2NQ=="},
+                      "data": {"auth_credentials": "dGVzdF91c2VybmFtZTp0ZXN0X3Bhc3N3b3Jk"},
                       "error_msg": None}
         self.assertEqual(response_data, right_data)
 

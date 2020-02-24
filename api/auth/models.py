@@ -25,8 +25,8 @@ class User:
         """
         self.username = username
         if not password_hash:
-            password = md5(password.encode()).hexdigest()
-        self.password = password
+            self.raw_password = password
+        self.password = md5(password.encode()).hexdigest()
 
     @classmethod
     def get_user_from_basic_auth(cls, auth_info):
@@ -34,7 +34,7 @@ class User:
         name_pass = auth_info_decode.split(":")
         if len(name_pass) != 2:
             return None
-        return cls(name_pass[0], name_pass[1], password_hash=True)
+        return cls(name_pass[0], name_pass[1])
 
     def is_username_exist(self):
         conn = get_db()
@@ -61,7 +61,7 @@ class User:
         return self.is_new
 
     def get_credentials(self):
-        return b64encode("{}:{}".format(self.username, self.password).encode("utf-8")).decode(
+        return b64encode("{}:{}".format(self.username, self.raw_password).encode("utf-8")).decode(
                     "utf-8")
 
     def save(self):
